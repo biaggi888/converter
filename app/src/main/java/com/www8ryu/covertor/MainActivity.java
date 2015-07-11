@@ -1,15 +1,22 @@
 package com.www8ryu.covertor;
 
-import android.view.*;
-import android.widget.*;
-import java.util.*;
-
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.View.OnClickListener;
-import java.lang.reflect.Field;
-import android.util.Size;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.TextView;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author  Shad0wMoon
+ * @version  0.2 Saturday, July 11, 2015 2:44:30 PM CDT
+ * www.33oy.com
+ */
 public class MainActivity extends Activity {
   class M {
     public static final int DEC_MODE = 0xff01;
@@ -18,8 +25,9 @@ public class MainActivity extends Activity {
 
     public static final String D_DEC = "DEC . ";
     public static final String D_HEX = "HEX . ";
-    public static final String[] FLAGS_MODE = {D_DEC, D_HEX};
+    //public static final String[] FLAGS_MODE = {D_DEC, D_HEX};
   }
+
   TextView tvDec;
   TextView tvHex;
   TextView tvDebug;
@@ -30,8 +38,8 @@ public class MainActivity extends Activity {
   public static int d_result = 0;
   public static int mode;
 
-  List<Button> decBtns ;
-  List<Button> hexBtns ;
+  List<Button> decBtns;
+  List<Button> hexBtns;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +48,9 @@ public class MainActivity extends Activity {
     setContentView(R.layout.main);
 
     //Initial view
-    tvDec = (TextView)findViewById(R.id.mTvDisplayDec);
-    tvHex = (TextView)findViewById(R.id.mTvDisplayHex);
-    tvDebug = (TextView)findViewById(R.id.mDebug);
+    tvDec = (TextView) findViewById(R.id.mTvDisplayDec);
+    tvHex = (TextView) findViewById(R.id.mTvDisplayHex);
+    tvDebug = (TextView) findViewById(R.id.mDebug);
     final TextView display[] = {tvDec, tvHex};
 
     //Initial all number button list[0]digi, [1] a~f
@@ -52,45 +60,47 @@ public class MainActivity extends Activity {
     changeMode(mode = M.DEC_MODE);
 
     //Get result
-    btnResult = (Button)findViewById(R.id.btn_result);
+    btnResult = (Button) findViewById(R.id.btn_result);
     btnResult.setOnClickListener(resultListener);
 
     //Button clear action
-    btnClear = (Button)findViewById(R.id.btn_clear);
+    btnClear = (Button) findViewById(R.id.btn_clear);
     btnClear.setOnClickListener(new OnClickListener() {
-        @Override
-        public void onClick(View p1) {
+      @Override
+      public void onClick(View p1) {
 //          for (int i = 0,len=display.length; i < len; i++) {
 //            display[i].setText(M.FLAGS_MODE[i]);
 //          }
 //          decString = "";
 //          hexString = "";
-          clearDisplay();
-        }
-      });
+        clearDisplay();
+      }
+    });
     //tvDebug.setText(hexBtns.get(0).getText());
 //btn change mode 
-    Button btnChangeDec = (Button)findViewById(R.id.btn_dec);
-    Button btnChangeHex = (Button)findViewById(R.id.btn_hex);
+    Button btnChangeDec = (Button) findViewById(R.id.btn_dec);
+    Button btnChangeHex = (Button) findViewById(R.id.btn_hex);
     btnChangeDec.setOnClickListener(new OnClickListener() {
 
-        @Override
-        public void onClick(View p1) {
-          mode = changeMode(M.DEC_MODE);
-        }
-      });
+      @Override
+      public void onClick(View p1) {
+        mode = changeMode(M.DEC_MODE);
+      }
+    });
     btnChangeHex.setOnClickListener(new OnClickListener() {
 
-        @Override
-        public void onClick(View p1) {
-          mode = changeMode(M.HEX_MODE);
-        }
-      });
-  };
+      @Override
+      public void onClick(View p1) {
+        mode = changeMode(M.HEX_MODE);
+      }
+    });
+  }
+
+  ;
 
   /**
-   List[0] 0~9
-   List[1] A~F
+   * List[0] 0~9
+   * List[1] A~F
    */
   public List<List<Button>> initBtn(TextView[] v, int mode) {
     int len = v.length;
@@ -104,12 +114,12 @@ public class MainActivity extends Activity {
       int i = 0;
       for (Field f : fields) {
         if (("btn_" + i).equals(f.getName())) {
-          Button b = (Button)findViewById(f.getInt(klazz));
+          Button b = (Button) findViewById(f.getInt(klazz));
           setOnClick(b, v, i + "");
           d.add(b);
           i++;
         } else if (("btn_" + ch).equals(f.getName())) {
-          Button b = (Button)findViewById(f.getInt(klazz));
+          Button b = (Button) findViewById(f.getInt(klazz));
           //setOnClick(b, v[0], ch + "");
           setOnClick(b, v, ch + "");
           ch += 1;
@@ -125,20 +135,20 @@ public class MainActivity extends Activity {
   }
 
   public void setOnClick(Button b, final TextView[] vv, final String s) {
-    b.setOnClickListener(new OnClickListener(){
+    b.setOnClickListener(new OnClickListener() {
 
-        @Override
-        public void onClick(View v) {
-          if (mode == M.DEC_MODE) {
-            decString += s;
-            vv[0].append(s);
-          }
-          if (mode == M.HEX_MODE) {
-            hexString += s;
-            vv[1].append(s);
-          }
+      @Override
+      public void onClick(View v) {
+        if (mode == M.DEC_MODE) {
+          decString += s;
+          vv[0].append(s);
         }
-      });
+        if (mode == M.HEX_MODE) {
+          hexString += s;
+          vv[1].append(s);
+        }
+      }
+    });
   }
 
   public OnClickListener resultListener = new OnClickListener() {

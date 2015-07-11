@@ -2,7 +2,7 @@
 <resources>
     <!-- From: file:/D:/home/eclipse/F_android/Converter/app/src/main/res/values/strings.xml -->
     <eat-comment/>
-    <string name="app_name">Convertor</string>
+    <string name="app_name">Converter</string>
     <string name="hello_world">Hello world!</string>
     <!-- From: file:/D:/home/eclipse/F_android/Converter/app/src/main/res/values/styles.xml -->
     <eat-comment/>
